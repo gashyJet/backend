@@ -1,7 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CommentEntity } from 'src/comments/entities/comment.entity';
 import { BaseEntity } from 'src/entities/base-entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { UserEntity } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'posts' })
 export class PostEntity extends BaseEntity {
@@ -22,6 +30,10 @@ export class PostEntity extends BaseEntity {
   })
   @Column({ type: 'text', array: true, default: [] })
   images: string[];
+
+  @ManyToOne(() => UserEntity, (user) => user.posts)
+  @JoinColumn({ name: 'userId' })
+  user: UserEntity;
 
   @OneToMany(() => CommentEntity, (comment) => comment.post)
   comments: CommentEntity[];

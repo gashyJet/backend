@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { BaseEntity } from 'src/entities/base-entity';
 import { PostEntity } from 'src/posts/entities/post.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Entity,
   Column,
@@ -45,4 +46,8 @@ export class CommentEntity extends BaseEntity {
   @ManyToOne(() => CommentEntity, { nullable: true })
   @JoinColumn({ name: 'parentCommentId' })
   parentComment: CommentEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.comments)
+  @JoinColumn({ name: 'userId' })
+  user: UserEntity;
 }

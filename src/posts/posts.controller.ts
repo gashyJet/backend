@@ -8,6 +8,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import {
@@ -27,11 +28,13 @@ import { PostEntity } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchPostDto } from './dto/search-post.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('posts')
 @ApiInternalServerErrorResponse({ description: 'Server Error' })
 @ApiUnauthorizedResponse({ description: 'Unauthorized response' })
 @Controller({ version: '1', path: 'posts' })
+@UseGuards(JwtAuthGuard)
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
